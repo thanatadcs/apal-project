@@ -4,20 +4,20 @@
 
 using namespace std;
 
-SitarskiHat::SitarskiHat(): dataBlockSize(2), logDbs(1), size(0)
+SitarskiHat::SitarskiHat(): dataBlockCap(2), logDbs(1), size(0)
 {
 	name = "hat";
-	cap = dataBlockSize << logDbs;
-	dataBlocks = new int*[dataBlockSize];
-	for (int i=0;i<dataBlockSize;i++)
-		dataBlocks[i] = new int[dataBlockSize];
+	cap = dataBlockCap << logDbs;
+	pointerBlock = new int*[dataBlockCap];
+	for (int i=0;i<dataBlockCap;i++)
+		pointerBlock[i] = new int[dataBlockCap];
 }
 
 SitarskiHat::~SitarskiHat()
 {
-	for (int i=0;i<dataBlockSize;i++)
-		delete[] dataBlocks[i];
-	delete[] dataBlocks;
+	for (int i=0;i<dataBlockCap;i++)
+		delete[] pointerBlock[i];
+	delete[] pointerBlock;
 }
 
 void SitarskiHat::resize(int newDataBlockSize)
@@ -26,31 +26,31 @@ void SitarskiHat::resize(int newDataBlockSize)
 	for (int i=0;i<newDataBlockSize;i++)
 		newDataBlocks[i] = new int[newDataBlockSize];
 	int ni = 0, nj = 0;
-	for (int i=0;i<dataBlockSize;i++)
+	for (int i=0;i<dataBlockCap;i++)
 	{
-		for (int j=0;j<dataBlockSize;j++)
+		for (int j=0;j<dataBlockCap;j++)
 		{
-			newDataBlocks[ni][nj++] = dataBlocks[i][j];
+			newDataBlocks[ni][nj++] = pointerBlock[i][j];
 			if (nj == newDataBlockSize) 
 			{
 				nj = 0;
 				ni++;
 			}
 		}
-		delete[] dataBlocks[i];
+		delete[] pointerBlock[i];
 	}
-	delete[] dataBlocks;
-	dataBlocks = newDataBlocks;
-	dataBlockSize = newDataBlockSize;
+	delete[] pointerBlock;
+	pointerBlock = newDataBlocks;
+	dataBlockCap = newDataBlockSize;
 	logDbs++;
-	cap = dataBlockSize << logDbs;
+	cap = dataBlockCap << logDbs;
 }
 
 void SitarskiHat::append(int n)
 {
 	if (size == cap)
-		resize(dataBlockSize << 1);
-	dataBlocks[size >> logDbs][size & ((1 << logDbs) - 1)] = n;
+		resize(dataBlockCap << 1);
+	pointerBlock[size >> logDbs][size & ((1 << logDbs) - 1)] = n;
 	size++;
 }
 
@@ -58,7 +58,7 @@ int SitarskiHat::get(int pos)
 {
 	if (pos < 0 || pos >= size)
 		return 0;
-	return dataBlocks[pos >> logDbs][pos & ((1 << logDbs) - 1)];
+	return pointerBlock[pos >> logDbs][pos & ((1 << logDbs) - 1)];
 }
 
 void SitarskiHat::print()
@@ -70,7 +70,7 @@ void SitarskiHat::print()
 
 void SitarskiHat::printDes()
 {
-	cout << "DBS: " << dataBlockSize << endl;
+	cout << "DBS: " << dataBlockCap << endl;
 	cout << "logDBS: " << logDbs << endl;
 	cout << "size: " << size << endl;
 	cout << "cap: " << cap << endl;
@@ -85,15 +85,15 @@ const std::string &SitarskiHat::getName()
 void SitarskiHat::clear()
 {
 	// Free everything
-	for (int i=0;i<dataBlockSize;i++)
-		delete[] dataBlocks[i];
-	delete[] dataBlocks;
+	for (int i=0;i<dataBlockCap;i++)
+		delete[] pointerBlock[i];
+	delete[] pointerBlock;
 	// Reset fields
-	dataBlockSize = 2;
+	dataBlockCap = 2;
 	logDbs = 1;
 	size = 0;
-	cap = dataBlockSize << logDbs;
-	dataBlocks = new int*[dataBlockSize];
-	for (int i=0;i<dataBlockSize;i++)
-		dataBlocks[i] = new int[dataBlockSize];
+	cap = dataBlockCap << logDbs;
+	pointerBlock = new int*[dataBlockCap];
+	for (int i=0;i<dataBlockCap;i++)
+		pointerBlock[i] = new int[dataBlockCap];
 }

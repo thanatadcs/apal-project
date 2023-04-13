@@ -5,40 +5,40 @@
 
 using namespace std;
 
-BrodnikHatA::BrodnikHatA(): dataBlockSize(1), pointerBlockSize(1), size(0), cap(1)
+BrodnikHatA::BrodnikHatA(): dataBlockCap(1), pointerBlockCap(1), size(0), cap(1)
 {
 	name = "BrodnikHatA";
-	pointerBlock = new int*[pointerBlockSize];
-	pointerBlock[0] = new int[dataBlockSize];
+	pointerBlock = new int*[pointerBlockCap];
+	pointerBlock[0] = new int[dataBlockCap];
 }
 
 BrodnikHatA::~BrodnikHatA()
 {
-	for (int i=0;i<pointerBlockSize;i++)
+	for (int i=0;i<pointerBlockCap;i++)
 		delete[] pointerBlock[i];
 	delete[] pointerBlock;
 }
 
 void BrodnikHatA::resize(int newPointerBlockSize)
 {
-	int newDataBlockSize = dataBlockSize + 1;
+	int newDataBlockSize = dataBlockCap + 1;
 	int **newPointerBlock = new int*[newPointerBlockSize];
 	int i;
-	for (i=0;i<pointerBlockSize;i++)
+	for (i=0;i<pointerBlockCap;i++)
 		newPointerBlock[i] = pointerBlock[i];
 	newPointerBlock[i] = new int[newDataBlockSize];
 	delete[] pointerBlock;
 	pointerBlock = newPointerBlock;
-	dataBlockSize = newDataBlockSize;
-	pointerBlockSize = newPointerBlockSize;
+	dataBlockCap = newDataBlockSize;
+	pointerBlockCap = newPointerBlockSize;
 	cap += newDataBlockSize;
 }
 
 void BrodnikHatA::append(int n)
 {
 	if (size == cap)
-		resize(pointerBlockSize + 1);
-	pointerBlock[pointerBlockSize - 1][dataBlockSize - (cap - size)] = n;
+		resize(pointerBlockCap + 1);
+	pointerBlock[pointerBlockCap - 1][dataBlockCap - (cap - size)] = n;
 	size++;
 }
 
@@ -60,8 +60,8 @@ void BrodnikHatA::print()
 
 void BrodnikHatA::printDes()
 {
-	cout << "pointerBlockSize: " << dataBlockSize << endl;
-	cout << "dataBlockSize: " << dataBlockSize << endl;
+	cout << "pointerBlockCap: " << dataBlockCap << endl;
+	cout << "dataBlockCap: " << dataBlockCap << endl;
 	cout << "size: " << size << endl;
 	cout << "cap: " << cap << endl;
 }
@@ -75,13 +75,13 @@ const std::string &BrodnikHatA::getName()
 void BrodnikHatA::clear()
 {
 	// Free everything
-	for (int i=0;i<pointerBlockSize;i++)
+	for (int i=0;i<pointerBlockCap;i++)
 		delete[] pointerBlock[i];
 	delete[] pointerBlock;
 	// Reset fields
-	dataBlockSize = 1;
+	dataBlockCap = 1;
 	size = 0;
 	cap = 1;
-	pointerBlock = new int*[pointerBlockSize];
-	pointerBlock[0] = new int[dataBlockSize];
+	pointerBlock = new int*[pointerBlockCap];
+	pointerBlock[0] = new int[dataBlockCap];
 }
