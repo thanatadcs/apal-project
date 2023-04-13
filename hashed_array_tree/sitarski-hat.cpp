@@ -4,18 +4,18 @@
 
 using namespace std;
 
-SitarskiHat::SitarskiHat(): dataBlockSize(2), logDbs(1), size(0)
+SitarskiHat::SitarskiHat(): dataBlockCap(2), logDbs(1), size(0)
 {
 	name = "hat";
-	cap = dataBlockSize << logDbs;
-	dataBlocks = new int*[dataBlockSize];
-	for (int i=0;i<dataBlockSize;i++)
-		dataBlocks[i] = new int[dataBlockSize];
+	cap = dataBlockCap << logDbs;
+	dataBlocks = new int*[dataBlockCap];
+	for (int i=0;i<dataBlockCap;i++)
+		dataBlocks[i] = new int[dataBlockCap];
 }
 
 SitarskiHat::~SitarskiHat()
 {
-	for (int i=0;i<dataBlockSize;i++)
+	for (int i=0;i<dataBlockCap;i++)
 		delete[] dataBlocks[i];
 	delete[] dataBlocks;
 }
@@ -26,9 +26,9 @@ void SitarskiHat::resize(int newDataBlockSize)
 	for (int i=0;i<newDataBlockSize;i++)
 		newDataBlocks[i] = new int[newDataBlockSize];
 	int ni = 0, nj = 0;
-	for (int i=0;i<dataBlockSize;i++)
+	for (int i=0;i<dataBlockCap;i++)
 	{
-		for (int j=0;j<dataBlockSize;j++)
+		for (int j=0;j<dataBlockCap;j++)
 		{
 			newDataBlocks[ni][nj++] = dataBlocks[i][j];
 			if (nj == newDataBlockSize) 
@@ -41,15 +41,15 @@ void SitarskiHat::resize(int newDataBlockSize)
 	}
 	delete[] dataBlocks;
 	dataBlocks = newDataBlocks;
-	dataBlockSize = newDataBlockSize;
+	dataBlockCap = newDataBlockSize;
 	logDbs++;
-	cap = dataBlockSize << logDbs;
+	cap = dataBlockCap << logDbs;
 }
 
 void SitarskiHat::append(int n)
 {
 	if (size == cap)
-		resize(dataBlockSize << 1);
+		resize(dataBlockCap << 1);
 	dataBlocks[size >> logDbs][size & ((1 << logDbs) - 1)] = n;
 	size++;
 }
@@ -70,7 +70,7 @@ void SitarskiHat::print()
 
 void SitarskiHat::printDes()
 {
-	cout << "DBS: " << dataBlockSize << endl;
+	cout << "DBS: " << dataBlockCap << endl;
 	cout << "logDBS: " << logDbs << endl;
 	cout << "size: " << size << endl;
 	cout << "cap: " << cap << endl;
@@ -85,15 +85,15 @@ const std::string &SitarskiHat::getName()
 void SitarskiHat::clear()
 {
 	// Free everything
-	for (int i=0;i<dataBlockSize;i++)
+	for (int i=0;i<dataBlockCap;i++)
 		delete[] dataBlocks[i];
 	delete[] dataBlocks;
 	// Reset fields
-	dataBlockSize = 2;
+	dataBlockCap = 2;
 	logDbs = 1;
 	size = 0;
-	cap = dataBlockSize << logDbs;
-	dataBlocks = new int*[dataBlockSize];
-	for (int i=0;i<dataBlockSize;i++)
-		dataBlocks[i] = new int[dataBlockSize];
+	cap = dataBlockCap << logDbs;
+	dataBlocks = new int*[dataBlockCap];
+	for (int i=0;i<dataBlockCap;i++)
+		dataBlocks[i] = new int[dataBlockCap];
 }

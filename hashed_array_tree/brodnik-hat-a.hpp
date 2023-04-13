@@ -7,8 +7,8 @@ class BrodnikHatA: public List
 {
 	private:
 		int **pointerBlock;
-		int dataBlockSize;
-		int pointerBlockSize;
+		int dataBlockCap;
+		int pointerBlockCap;
 		int	size;
 		int	cap;
 		std::string name;
