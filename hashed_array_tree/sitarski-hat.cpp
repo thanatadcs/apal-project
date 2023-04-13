@@ -8,16 +8,16 @@ SitarskiHat::SitarskiHat(): dataBlockCap(2), logDbs(1), size(0)
 {
 	name = "hat";
 	cap = dataBlockCap << logDbs;
-	indexBlocks = new int*[dataBlockCap];
+	indexBlock = new int*[dataBlockCap];
 	for (int i=0;i<dataBlockCap;i++)
-		indexBlocks[i] = new int[dataBlockCap];
+		indexBlock[i] = new int[dataBlockCap];
 }
 
 SitarskiHat::~SitarskiHat()
 {
 	for (int i=0;i<dataBlockCap;i++)
-		delete[] indexBlocks[i];
-	delete[] indexBlocks;
+		delete[] indexBlock[i];
+	delete[] indexBlock;
 }
 
 void SitarskiHat::resize(int newDataBlockSize)
@@ -30,17 +30,17 @@ void SitarskiHat::resize(int newDataBlockSize)
 	{
 		for (int j=0;j<dataBlockCap;j++)
 		{
-			newDataBlocks[ni][nj++] = indexBlocks[i][j];
+			newDataBlocks[ni][nj++] = indexBlock[i][j];
 			if (nj == newDataBlockSize) 
 			{
 				nj = 0;
 				ni++;
 			}
 		}
-		delete[] indexBlocks[i];
+		delete[] indexBlock[i];
 	}
-	delete[] indexBlocks;
-	indexBlocks = newDataBlocks;
+	delete[] indexBlock;
+	indexBlock = newDataBlocks;
 	dataBlockCap = newDataBlockSize;
 	logDbs++;
 	cap = dataBlockCap << logDbs;
@@ -50,7 +50,7 @@ void SitarskiHat::append(int n)
 {
 	if (size == cap)
 		resize(dataBlockCap << 1);
-	indexBlocks[size >> logDbs][size & ((1 << logDbs) - 1)] = n;
+	indexBlock[size >> logDbs][size & ((1 << logDbs) - 1)] = n;
 	size++;
 }
 
@@ -58,7 +58,7 @@ int SitarskiHat::get(int pos)
 {
 	if (pos < 0 || pos >= size)
 		return 0;
-	return indexBlocks[pos >> logDbs][pos & ((1 << logDbs) - 1)];
+	return indexBlock[pos >> logDbs][pos & ((1 << logDbs) - 1)];
 }
 
 void SitarskiHat::print()
@@ -86,14 +86,14 @@ void SitarskiHat::clear()
 {
 	// Free everything
 	for (int i=0;i<dataBlockCap;i++)
-		delete[] indexBlocks[i];
-	delete[] indexBlocks;
+		delete[] indexBlock[i];
+	delete[] indexBlock;
 	// Reset fields
 	dataBlockCap = 2;
 	logDbs = 1;
 	size = 0;
 	cap = dataBlockCap << logDbs;
-	indexBlocks = new int*[dataBlockCap];
+	indexBlock = new int*[dataBlockCap];
 	for (int i=0;i<dataBlockCap;i++)
-		indexBlocks[i] = new int[dataBlockCap];
+		indexBlock[i] = new int[dataBlockCap];
 }
