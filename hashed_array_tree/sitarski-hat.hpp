@@ -6,7 +6,7 @@
 class SitarskiHat: public List
 {
 	private:
-		int **indexBlock;
+		int **pointerBlock;
 		int dataBlockCap;
 		int logDbs;
 		int	size;
