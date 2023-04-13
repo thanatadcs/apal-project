@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <bitset>
 
 #include "brodnik-hat-b.hpp"
 
@@ -52,6 +53,7 @@ void BrodnikHatB::grow()
 	cap += dataBlockCap;
 }
 
+
 void BrodnikHatB::append(int n)
 {
 	if (size == cap)
@@ -61,14 +63,38 @@ void BrodnikHatB::append(int n)
 	size++;
 }
 
+/*
+ * Will be replace with BSR instruction in x86
+ */
+int bsr(unsigned int n)
+{
+  if (n == 0) {
+        return 0;
+    }
+    int position = 0;
+    while (n >>= 1) {
+        ++position;
+    }
+    return position + 1; 
+}
+
+
 int BrodnikHatB::get(int pos)
 {
 	if (pos < 0 || pos >= size)
 		return 0;
-	int pointerBlockIndex = (int)((sqrt(8*pos + 1) - 1.0)/2.0);
-	int dataBlockIndex = pos - (pointerBlockIndex*(pointerBlockIndex + 1))/2;
-	return pointerBlock[pointerBlockIndex][dataBlockIndex];
+	unsigned int r = pos + 1;
+	unsigned int k = bsr(r) - 1;
+	unsigned int b = (r >> ((int)ceil(k/2.0))) & (1 << k/2) - 1;
+	unsigned int e = r & ((1 << (int)ceil(k/2.0)) - 1);
+	int preK = k - 1;
+	int halfPreK = preK/2;
+	int numBlockBefore = preK % 2 == 0 ? (1 << halfPreK) * (1 << halfPreK) : (1 << halfPreK) * ((1 << halfPreK) + 1);
+	if (preK < 0)
+		numBlockBefore = 0;
+	return pointerBlock[numBlockBefore + b][e];
 }
+
 
 void BrodnikHatB::print()
 {

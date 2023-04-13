@@ -19,4 +19,6 @@ int main(void)
 	//sh.print();
 	//bha.print();
 	bhb.print();
+	for (int i=0;i<10;i++)
+		cout << bhb.get(i) << endl;
 }
