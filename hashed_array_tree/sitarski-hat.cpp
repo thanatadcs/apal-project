@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "hat.h"
+#include "sitarski-hat.hpp"
 
 using namespace std;
 
-Hat::Hat(): dataBlockSize(2), logDbs(1), size(0)
+SitarskiHat::SitarskiHat(): dataBlockSize(2), logDbs(1), size(0)
 {
 	name = "hat";
 	cap = dataBlockSize << logDbs;
@@ -13,14 +13,14 @@ Hat::Hat(): dataBlockSize(2), logDbs(1), size(0)
 		dataBlocks[i] = new int[dataBlockSize];
 }
 
-Hat::~Hat()
+SitarskiHat::~SitarskiHat()
 {
 	for (int i=0;i<dataBlockSize;i++)
 		delete[] dataBlocks[i];
 	delete[] dataBlocks;
 }
 
-void Hat::resize(int newDataBlockSize)
+void SitarskiHat::resize(int newDataBlockSize)
 {
 	int **newDataBlocks = new int*[newDataBlockSize];
 	for (int i=0;i<newDataBlockSize;i++)
@@ -46,7 +46,7 @@ void Hat::resize(int newDataBlockSize)
 	cap = dataBlockSize << logDbs;
 }
 
-void Hat::append(int n)
+void SitarskiHat::append(int n)
 {
 	if (size == cap)
 		resize(dataBlockSize << 1);
@@ -54,21 +54,21 @@ void Hat::append(int n)
 	size++;
 }
 
-int Hat::get(int pos)
+int SitarskiHat::get(int pos)
 {
 	if (pos < 0 || pos >= size)
 		return 0;
 	return dataBlocks[pos >> logDbs][pos & ((1 << logDbs) - 1)];
 }
 
-void Hat::print()
+void SitarskiHat::print()
 {
 	for (int i=0;i<size;i++)
 		cout << (*this).get(i) << " ";
 	cout << endl;
 }
 
-void Hat::printDes()
+void SitarskiHat::printDes()
 {
 	cout << "DBS: " << dataBlockSize << endl;
 	cout << "logDBS: " << logDbs << endl;
@@ -77,12 +77,12 @@ void Hat::printDes()
 }
 
 
-const std::string &Hat::getName()
+const std::string &SitarskiHat::getName()
 {
 	return name;
 }
 
-void Hat::clear()
+void SitarskiHat::clear()
 {
 	// Free everything
 	for (int i=0;i<dataBlockSize;i++)

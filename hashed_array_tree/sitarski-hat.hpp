@@ -1,9 +1,9 @@
 #ifndef HAT_H
 # define HAT_H
 
-#include "list.h"
+#include "list.hpp"
 
-class Hat: public List
+class SitarskiHat: public List
 {
 	private:
 		int **dataBlocks;
@@ -17,8 +17,8 @@ class Hat: public List
 
 
 	public:
-		Hat();
-		~Hat();
+		SitarskiHat();
+		~SitarskiHat();
 
 		void append(int n);
 		int get(int pos);
