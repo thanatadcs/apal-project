@@ -23,7 +23,7 @@
             ICCS315: Applied Algorithms} % Name of course here
         \vspace{5pt}
         
-        \normalsize{Thanatad Anukoolprasert  % Your name here
+        \normalsize{Thanatad Anukoolprasert, Yuttasart Viratpan   % Your name here
         
         \today}        % Change to due date if preferred
         \vspace{15pt}
@@ -62,7 +62,8 @@
     \end{itemize}
 
     \section*{Method}
-    We are going the implement the data structures above and benchmark them. We are going the measure running time in cycles using
+    We are going the implement the data structures above and benchmark them. Our implementation can be found here: \href{https://github.com/thanatadcs/apal-project}{ https://github.com/thanatadcs/apal-project}.
+    We are going the measure running time in cycles using
     \emph{rdtsc} assembly instruction in x86 so that we are able to time quick operation like append with accurary.
 
     \subsection*{Remark on implementation}
@@ -71,6 +72,9 @@
     specifically \emph{$p=2^k - 1$} mentioned in the paper does not represent the number of data blocks before the $k$-th superblock as claimed,
     but it represent the number of elements before the $k$-th superblock instead. For this reason I have to implement my own way to get the number of
     data blocks before the $k$-th superblock. This can effect the running time of the \emph{get} function for Brodnik's HAT B. More information can be found in brodnik-hat-b.cpp.
+
+    For Brodnik's HAT A and B, background-rebuilding is also implemented so that we get $O(1)$ worst case append time. Brodnik's HAT B also utilized BSR assembly instruction in x86 to find
+    the superblock number.
 
     \section*{Results and Discussion}
     \subsection*{Hashed Array Tree}
@@ -84,6 +88,17 @@
             standard deviation & 28458.271801239895  & 173.0441420332727 & 227.73642714240262\\\hline 
         \end{tabular}
     \end{center}
+    For append latency, the ranking from best to worst running time is Brodnik's HAT B, Brodnik's HAT A, and Sitarski's HAT.
+    This makes sense since Sitarski's HAT have to copy not only the pointer, but also all elements every time it's expand as compare to Brodnik's HAT A
+    and B where only pointer need to be copy and since we do not need to copy the elements, background-rebuilding is possible which make this even better and in fact constant in term of append time.
+    
+    In another aspect, our results also follow the theoretical running time very well. For Sitarski's HAT, in theory append time is $O(1)$ amortized, so we can see that the mean
+    is that not far off from Brodnik's A and B, but since this is amortized cost, the standard deviation can be very high since there might be spike in running time once in a while. Brodnik's A and B has $O(1)$ worst case append time so
+    the standard deviation of both of these is very low. Here is a the plot for append time
+    \begin{center}
+        \includegraphics{graphics/hat_append.png}
+    \end{center}
+    which demostrated how the append time for Brodnik's A and B are constant.
     \subsubsection*{Access latency}
     10 millions elements are appended and all 10 millions elements are get access through \emph{get} function.
     Each access is timed, here are the statistics
@@ -94,6 +109,21 @@
             standard deviation & 31.649467204234057  & 35.97450913996233 & 90.24513109294548\\\hline 
         \end{tabular}
     \end{center}
+    Here the ranking from best to worst are Sitarski's HAT , Brodnik's HAT B, and Brodnik's HAT A. Sitarski's HAT require little
+    computation (a little bit of bitwise operation) to get to the index so it is the fastest. Brodnik's B is better than Brodnik's HAT A in
+    their mean by a little bit which is a surprise since Brodnik's HAT B does not have any complex operation like square root. In term of standard deviation,
+    Brodnik's HAT A clearly out perform Brodnik's HAT B since the running time is more consistant.
+
+    In theory, Sitarski's HAT has $O(1)$ access time so it is not a surprise that it is very fast with low standard deviation.
+    Brodnik's HAT B supposed far to be better than Brodnik's HAT A, since Brodnik's HAT B promise $O(1)$ access time where
+    Brodnik's HAT A does not since it has to compute square root, but our results does not goes that way since Brodnik's HAT B and A
+    relatively has similar running time in term of mean, but for Brodnik's HAT A clearly has a more consistant result.
+    Here is the graph for access time
+    \begin{center}
+        \includegraphics{graphics/hat_access.png}
+    \end{center}
+    which show how the access time for all 3 HATs looks relatively constant (except that Brodnik's HAT A access is not constant in theory, but is low enough to look like so).
+
     \subsubsection*{Scan throughput}
     1000 elements are appended and all the 1000 elements are accessed. The total time used to access all elements is measured and we do this for 1000 times.
     Here are the statistics. 
@@ -104,6 +134,18 @@
             standard deviation & 1509.39901776038  & 3611.297266234946 & 2422.0789396351224\\\hline 
         \end{tabular}
     \end{center}
+    For scan throughput, ranking from best to worst is Sitarski's HAT, Brodnik's A, and Brodnik's B.
+    Again similar to our access time, Sitarski's HAT perform the best. Brodnik's HAT A beat Brodnik's HAT B this time which is a
+    surprise. Even though the access time for Brodnik's HAT A is not constant, but it is still relatively very low
+    so it might also occur that Brodnik's HAT B access time get out performed by Brodnik's HAT A because of overhead.
+
+    In term of theory, Sitarski follows the theoretical running time very well with constant low access time (because of simple bitwise).
+    But for Brodnik's HAT A, even though in theory, we would say that it is worse than Brodnik's HAT B, but our results has shown that it can be better.
+
+    Of course, it might also means that our Brodnik's HAT B is not optimized enough and we may have to do additional book keeping to make this more optimized.
+    Another factor can also stem from the fact that our implementation is a bit different from that of the paper, in this case we might as well trying to find a better
+    a better and faster way to compute the number of data blocks before a given superblock also.
+
     \subsubsection*{Overall throughput}
     1000 elements are appended. The total time used to append all 1000 elements is measured and we do this for 1000 times.
     Here are the statistics
@@ -114,6 +156,11 @@
             standard deviation & 1774.3194777840883  & 1691.4454491280528 & 2090.277559154286\\\hline 
         \end{tabular}
     \end{center}
+    For overall throughput, ranking from best to worst is Brodnik's HAT A, Brodnik's HAT B, and Sitarski's HAT.
+    All three HATs does not have that far off running time in terms of mean and they have relatively the same standard deviation.
+
+    This is according to the theory since all of the have $O(1)$ append time (Sitarski's is amortized), the overall throughput result
+    average out some bad running time for Sitarski's HAT, but still it cannot beat Brodnik's HAT A and B since both of these are constant worst case append time.
     
     \subsection*{Hash table}
 
