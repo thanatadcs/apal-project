@@ -105,10 +105,8 @@ int BrodnikHatB::get(int pos)
 	 * since p = 2^k - 1 is not the number of data block before k-th superblock, but it is the total number
 	 * of elements before k-th superblock. So here is my (crying) attempt to do my own finding number of data block before k-th superblock.
 	 */
-	int preK = k - 1;
-	int pow2 = 1 << preK/2; // 2^(preK/2)
-	int numDataBlockBefore = preK % 2 == 0 ? pow2 * pow2 : pow2 * (pow2 + 1);
-	if (preK < 0)
+	int numDataBlockBefore = (k - 1) % 2 != 0 ? (1 << ((k - 1)/2 + 2)) - 2 : 3 * (1 << (k - 1)/2) - 2;
+	if (k - 1 < 0)
 		numDataBlockBefore = 0;
 	return pointerBlock[numDataBlockBefore + b][e];
 }

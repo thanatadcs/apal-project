@@ -3,7 +3,7 @@
 #include "list.hpp"
 #include "sitarski-hat.hpp"
 #include "brodnik-hat-a-brd.hpp"
-#include "brodnik-hat-b.hpp"
+#include "brodnik-hat-b-brd.hpp"
 
 using namespace std;
 
