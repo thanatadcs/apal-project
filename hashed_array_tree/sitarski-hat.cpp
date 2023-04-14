@@ -6,7 +6,7 @@ using namespace std;
 
 SitarskiHat::SitarskiHat(): dataBlockCap(2), logDbs(1), size(0)
 {
-	name = "hat";
+	name = "SitarskiHat";
 	cap = dataBlockCap << logDbs;
 	pointerBlock = new int*[dataBlockCap];
 	for (int i=0;i<dataBlockCap;i++)

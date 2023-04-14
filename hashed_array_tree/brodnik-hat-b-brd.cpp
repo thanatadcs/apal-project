@@ -10,7 +10,7 @@ BrodnikHatB::BrodnikHatB(): pointerBlockSize(1), pointerBlockCap(1), size(0), ca
 								superBlockIndex(0), superBlockSize(1), superBlockCap(1), \
 									dataBlockIndex(0),  dataBlockSize(0), dataBlockCap(1)
 {
-	name = "BrodnikHatB";
+	name = "BrodnikHatBBrd";
 	pointerBlock = new int*[pointerBlockCap];
 	pointerBlock[0] = new int[dataBlockCap];
 

@@ -7,7 +7,7 @@ using namespace std;
 
 BrodnikHatA::BrodnikHatA(): dataBlockCap(1), pointerBlockSize(1), pointerBlockCap(1), size(0), cap(1)
 {
-	name = "BrodnikHatA";
+	name = "BrodnikHatABrd";
 	pointerBlock = new int*[pointerBlockCap];
 	pointerBlock[0] = new int[dataBlockCap];
 
