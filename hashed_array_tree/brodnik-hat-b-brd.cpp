@@ -25,6 +25,9 @@ BrodnikHatB::~BrodnikHatB()
 	for (int i=0;i<pointerBlockSize;i++)
 		delete[] pointerBlock[i];
 	delete[] pointerBlock;
+
+	// For background-rebuilding
+	delete[] pointerBlockRebuilding;
 }
 
 void BrodnikHatB::resizePointerBlock(int newPointerBlockCap)
@@ -152,4 +155,10 @@ void BrodnikHatB::clear()
 	dataBlockCap = 1;
 	pointerBlock = new int*[pointerBlockCap];
 	pointerBlock[0] = new int[dataBlockCap];
+
+	// For background-rebuilding
+	delete[] pointerBlockRebuilding;
+	pointerBlockRebuilding = new int*[2 * pointerBlockCap];
+	pointerBlockRebuilding[0] = pointerBlock[0];
+	pointerBlockRebuildingSize = 1;
 }

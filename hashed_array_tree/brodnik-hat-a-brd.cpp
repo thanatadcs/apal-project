@@ -22,6 +22,9 @@ BrodnikHatA::~BrodnikHatA()
 	for (int i=0;i<pointerBlockCap;i++)
 		delete[] pointerBlock[i];
 	delete[] pointerBlock;
+
+	// For background-rebuilding
+	delete[] pointerBlockRebuilding;
 }
 
 void BrodnikHatA::resizePointerBlock(int newPointerBlockCap)
@@ -93,14 +96,21 @@ const std::string &BrodnikHatA::getName()
 void BrodnikHatA::clear()
 {
 	// Free everything
-	for (int i=0;i<pointerBlockCap;i++)
+	for (int i=0;i<pointerBlockSize;i++)
 		delete[] pointerBlock[i];
 	delete[] pointerBlock;
 	// Reset fields
 	dataBlockCap = 1;
+	pointerBlockSize = 1;
 	pointerBlockCap = 1;
 	size = 0;
 	cap = 1;
 	pointerBlock = new int*[pointerBlockCap];
 	pointerBlock[0] = new int[dataBlockCap];
+
+	// For background-rebuilding
+	delete[] pointerBlockRebuilding;
+	pointerBlockRebuilding = new int*[2 * pointerBlockCap];
+	pointerBlockRebuilding[0] = pointerBlock[0];
+	pointerBlockRebuildingSize = 1;
 }

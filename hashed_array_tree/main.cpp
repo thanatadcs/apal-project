@@ -97,8 +97,18 @@ int main(void)
 	SitarskiHat sh;
 	BrodnikHatA bha;
 	BrodnikHatB bhb;
-	int size = 10000000;
+	int size = 10000;
+	int iter = 10000;
 	//listAppendTime(sh, size);
-	listAppendTime(bha, size);
-	//listAppendTime(bhb, size);
+	//listAppendTime(bha, size);
+	//listAppendTime(bhb, 10000000);
+	//listGetTime(sh, size, size);
+	//listGetTime(bha, size, size);
+	//listGetTime(bhb, size, size);
+	listScanime(sh, size, iter);		
+	listScanime(bha, size, iter);		
+	listScanime(bhb, size, iter);		
+	//listOverallAppendTime(sh, size, iter);
+	//listOverallAppendTime(bha, size, iter);
+	//listOverallAppendTime(bhb, size, iter);
 }
