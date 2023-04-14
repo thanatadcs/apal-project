@@ -10,7 +10,7 @@ BrodnikHatB::BrodnikHatB(): pointerBlockSize(1), pointerBlockCap(1), size(0), ca
 								superBlockIndex(0), superBlockSize(1), superBlockCap(1), \
 									dataBlockIndex(0),  dataBlockSize(0), dataBlockCap(1)
 {
-	name = "BrodnikHatB";
+	name = "BrodnikHatBBrd";
 	pointerBlock = new int*[pointerBlockCap];
 	pointerBlock[0] = new int[dataBlockCap];
 
@@ -25,6 +25,9 @@ BrodnikHatB::~BrodnikHatB()
 	for (int i=0;i<pointerBlockSize;i++)
 		delete[] pointerBlock[i];
 	delete[] pointerBlock;
+
+	// For background-rebuilding
+	delete[] pointerBlockRebuilding;
 }
 
 void BrodnikHatB::resizePointerBlock(int newPointerBlockCap)
@@ -79,16 +82,10 @@ void BrodnikHatB::append(int n)
 /*
  * Will be replace with BSR instruction in x86
  */
-int bsr(unsigned int n)
-{
-  if (n == 0) {
-        return 0;
-    }
-    int position = 0;
-    while (n >>= 1) {
-        ++position;
-    }
-    return position + 1; 
+unsigned int bsr(unsigned int x) {
+    unsigned int index;
+    __asm__("bsr %1, %0" : "=r" (index) : "r" (x));
+    return index + 1;
 }
 
 
@@ -158,4 +155,10 @@ void BrodnikHatB::clear()
 	dataBlockCap = 1;
 	pointerBlock = new int*[pointerBlockCap];
 	pointerBlock[0] = new int[dataBlockCap];
+
+	// For background-rebuilding
+	delete[] pointerBlockRebuilding;
+	pointerBlockRebuilding = new int*[2 * pointerBlockCap];
+	pointerBlockRebuilding[0] = pointerBlock[0];
+	pointerBlockRebuildingSize = 1;
 }
