@@ -164,16 +164,16 @@
     \subsection*{Hash table}
 
     \section*{Conclusion}
-    We have implemented and benchmark 3 versions of HATs and 3 versions of hash table.
+    We have implemented and benchmarked 3 versions of HAT and 3 versions of hash table.
     
-    For HATs, we have found that Brodnik's HAT A and B does very well for append/overall throughput when compare to Sitarski's HAT this is partly due to
+    For HATs, we have found that Brodnik's HAT A and B does very well for append/overall throughput when compare to Sitarski's HAT this is due to
     the background-rebuilding optimization that has been implement for both of the former and the fact that the former does not copy over all the elements
     when expanding. For access/scan throughput, Sitarski's outperformed Brodnik's HAT A and B, this is because the former does only simple bitwise operation to figure out the index,
     but Brodnik's HAT A is more complex which involves square root which does not run in constant time and Brodnik's HAT B even though use some bitwise operation and BSR x86 assembly directly, but
     the arithmetics required can be heavy enough to weight it down, additional book keeping might be needed to make this better. Also noted that the modification from
     the original paper for the function used to access might also affect the running time.
 
-    Also note that Brodnik's HAT A performed better than Brodnik's HAT B for scan throughput, even though Brodnik's HAT B promise better theoretical constant running time, but in this
+    We also notice that Brodnik's HAT A performed better than Brodnik's HAT B for scan throughput, even though Brodnik's HAT B promise better theoretical constant running time, but in this
     case our implementation might introduce some overhead to make this worse than the Brodnik's HAT A which does not have constant access, but access time can be low enough to beat the overhead for
     Brodnik's HAT B. This does show that even though the theory says that Brodnik's HAT B is better than Brodnik's HAT A, but our result show that this is not the case in practice.
     If we are taking in to account the ease of implementation for Brodnik's HAT A and our results for its performence, Brodnik's HAT A is better than Brodnik's HAT B in this case.
