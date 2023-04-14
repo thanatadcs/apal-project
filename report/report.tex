@@ -1,0 +1,47 @@
+% This is a template for doing homework assignments in LaTeX
+
+\documentclass{article} % This command is used to set the type of document you are working on such as an article, book, or presenation
+
+\usepackage[margin=1in]{geometry} % This package allows the editing of the page layout
+\usepackage{amsmath}  % This package allows the use of a large range of mathematical formula, commands, and symbols
+\usepackage{graphicx}  % This package allows the importing of images
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\setlength\parindent{0pt}
+
+\newcommand{\question}[2][]{\begin{flushleft}
+        \textbf{Question #1}: \textit{#2}
+
+\end{flushleft}}
+\newcommand{\sol}{\textbf{Solution}:} %Use if you want a boldface solution line
+\newcommand{\maketitletwo}[2][]{\begin{center}
+        \Large{\textbf{Project #1}
+            
+            ICCS315: Applied Algorithms} % Name of course here
+        \vspace{5pt}
+        
+        \normalsize{Thanatad Anukoolprasert  % Your name here
+        
+        \today}        % Change to due date if preferred
+        \vspace{15pt}
+        
+\end{center}}
+\begin{document}
+    \maketitletwo[]  % Optional argument is assignment number
+    %Keep a blank space between maketitletwo and \question[1]
+    
+    \section*{Objective}
+
+    \section*{Method}
+    \subsection*{Benchmarking}
+    \subsection*{Remark on implementation}
+
+    \section*{Results}
+
+    \section*{Discussion}
+
+    \section*{Conclusion}
+
+\end{document}
