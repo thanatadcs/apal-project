@@ -36,13 +36,12 @@
     \section*{Objective}
     The objective of this project is to benchmark two different type of data structures and compare different
     implementation of each type as well as their theoretical running time.
-    The first type is resizable array where the following data structures is of interest
+    The first type is resizable array where the following data structures are of interest
     \begin{itemize}
         \item Hashed Array Tree (Sitarski, 1996)
-        \item Brodnik's non-superblock version (Brodnik et al., 1999)
-        \item Brodnik's superblock version (Brodnik et al., 1999)
+        \item Brodnik's resizable array non-superblock version (Brodnik et al., 1999)
+        \item Brodnik's resizeable array superblock version (Brodnik et al., 1999)
     \end{itemize}
-    
     The second type is hash table with 3 different collision resolution schemes, namely
     \begin{itemize}
         \item Chaining
@@ -51,7 +50,7 @@
     \end{itemize}
     
     For a lack of a better name, we are going to called both the data structures from \href{ https://sedgewick.io/wp-content/themes/sedgewick/papers/1999Optimal.pdf}{ Brodnik et al 1999}, Hashed Array Tree (HAT).
-    Not only that we are going to called Brodnik's HAT with non-superblock version \emph{Brodnik's HAT A} and the superblock version \emph{Brodnik's HAT B}.
+    More specifically, we are going to called Brodnik's HAT with non-superblock version \emph{Brodnik's HAT A} and the superblock version \emph{Brodnik's HAT B}.
 
     The dimensions of interest are the following
     \begin{itemize}
@@ -68,12 +67,12 @@
 
     \subsection*{Remark on implementation}
     The implementation of \emph{get} function of Brodnik's HAT B is different from \emph{locate} function in the original paper.
-    Namely, I cannot implement part of \emph{locate} function since there might be something wrong with the pseudocode in the paper,
+    Namely, we cannot implement part of \emph{locate} function since there might be something wrong with the pseudocode in the paper,
     specifically \emph{$p=2^k - 1$} mentioned in the paper does not represent the number of data blocks before the $k$-th superblock as claimed,
     but it represent the number of elements before the $k$-th superblock instead. For this reason I have to implement my own way to get the number of
     data blocks before the $k$-th superblock. This can effect the running time of the \emph{get} function for Brodnik's HAT B. More information can be found in brodnik-hat-b.cpp.
 
-    For Brodnik's HAT A and B, background-rebuilding is also implemented so that we get $O(1)$ worst case append time. Brodnik's HAT B also utilized BSR assembly instruction in x86 to find
+    For Brodnik's HAT A and B, background-rebuilding optimization are also implemented so that we get $O(1)$ worst case append time. Brodnik's HAT B also utilized BSR assembly instruction in x86 to find
     the superblock number.
 
     \section*{Results and Discussion}
@@ -100,7 +99,7 @@
     \end{center}
     which demostrated how the append time for Brodnik's A and B are constant.
     \subsubsection*{Access latency}
-    10 millions elements are appended and all 10 millions elements are get access through \emph{get} function.
+    10 millions elements are appended and all 10 millions elements get access through \emph{get} function.
     Each access is timed, here are the statistics
     \begin{center}
         \begin{tabular}{|c|c|c|c|}\hline
@@ -144,7 +143,7 @@
 
     Of course, it might also means that our Brodnik's HAT B is not optimized enough and we may have to do additional book keeping to make this more optimized.
     Another factor can also stem from the fact that our implementation is a bit different from that of the paper, in this case we might as well trying to find a better
-    a better and faster way to compute the number of data blocks before a given superblock also.
+    a better and faster way to compute the number of data blocks before a given superblock.
 
     \subsubsection*{Overall throughput}
     1000 elements are appended. The total time used to append all 1000 elements is measured and we do this for 1000 times.
@@ -159,11 +158,24 @@
     For overall throughput, ranking from best to worst is Brodnik's HAT A, Brodnik's HAT B, and Sitarski's HAT.
     All three HATs does not have that far off running time in terms of mean and they have relatively the same standard deviation.
 
-    This is according to the theory since all of the have $O(1)$ append time (Sitarski's is amortized), the overall throughput result
+    This is according to the theory since all of the have $O(1)$ append time (Sitarski's is amortized), the overall throughput
     average out some bad running time for Sitarski's HAT, but still it cannot beat Brodnik's HAT A and B since both of these are constant worst case append time.
     
     \subsection*{Hash table}
 
     \section*{Conclusion}
+    We have implemented and benchmark 3 versions of HATs and 3 versions of hash table.
+    
+    For HATs, we have found that Brodnik's HAT A and B does very well for append/overall throughput when compare to Sitarski's HAT this is partly due to
+    the background-rebuilding optimization that has been implement for both of the former and the fact that the former does not copy over all the elements
+    when expanding. For access/scan throughput, Sitarski's outperformed Brodnik's HAT A and B, this is because the former does only simple bitwise operation to figure out the index,
+    but Brodnik's HAT A is more complex which involves square root which does not run in constant time and Brodnik's HAT B even though use some bitwise operation and BSR x86 assembly directly, but
+    the arithmetics required can be heavy enough to weight it down, additional book keeping might be needed to make this better. Also noted that the modification from
+    the original paper for the function used to access might also affect the running time.
+
+    Also note that Brodnik's HAT A performed better than Brodnik's HAT B for scan throughput, even though Brodnik's HAT B promise better theoretical constant running time, but in this
+    case our implementation might introduce some overhead to make this worse than the Brodnik's HAT A which does not have constant access, but access time can be low enough to beat the overhead for
+    Brodnik's HAT B. This does show that even though the theory says that Brodnik's HAT B is better than Brodnik's HAT A, but our result show that this is not the case in practice.
+    If we are taking in to account the ease of implementation for Brodnik's HAT A and our results for its performence, Brodnik's HAT A is better than Brodnik's HAT B in this case.
 
 \end{document}
