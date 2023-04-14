@@ -79,16 +79,10 @@ void BrodnikHatB::append(int n)
 /*
  * Will be replace with BSR instruction in x86
  */
-int bsr(unsigned int n)
-{
-  if (n == 0) {
-        return 0;
-    }
-    int position = 0;
-    while (n >>= 1) {
-        ++position;
-    }
-    return position + 1; 
+unsigned int bsr(unsigned int x) {
+    unsigned int index;
+    __asm__("bsr %1, %0" : "=r" (index) : "r" (x));
+    return index + 1;
 }
 
 
