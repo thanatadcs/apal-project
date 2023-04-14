@@ -90,7 +90,7 @@ int BrodnikHatB::get(int pos)
 	 * The reason for this is that the implementation of locate function in the paper Brodnik et al. 1999 did not work and 
 	 * I suspected that it is wrong (maybe I have gone crazy after debugging for so long), 
 	 * since p = 2^k - 1 is not the number of data block before k-th superblock, but it is the total number
-	 * of elements before k-th superblock. So here I is my (crying) attempt to do my own finding number of data block before k-th SB.
+	 * of elements before k-th superblock. So here is my (crying) attempt to do my own finding number of data block before k-th superblock.
 	 */
 	int preK = k - 1;
 	int pow2 = 1 << preK/2; // 2^(preK/2)

@@ -13,12 +13,6 @@ int main(void)
 	BrodnikHatA bha;
 	BrodnikHatB bhb;
 	for (int i=0;i<16;i++)
-	{
-		bhb.append(i);
-	}
-	//sh.print();
-	//bha.print();
-	bhb.print();
-	for (int i=0;i<10;i++)
-		cout << bhb.get(i) << endl;
+		bha.append(i);
+	bha.print();
 }

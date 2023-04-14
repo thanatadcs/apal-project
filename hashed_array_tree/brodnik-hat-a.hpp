@@ -8,12 +8,14 @@ class BrodnikHatA: public List
 	private:
 		int **pointerBlock;
 		int dataBlockCap;
+		int pointerBlockSize;
 		int pointerBlockCap;
 		int	size;
 		int	cap;
 		std::string name;
 
-		void resize(int newSize);
+		void grow();
+		void resizePointerBlock(int newPointerBlockCap);
 
 
 	public:

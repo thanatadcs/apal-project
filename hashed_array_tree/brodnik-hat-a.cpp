@@ -5,7 +5,7 @@
 
 using namespace std;
 
-BrodnikHatA::BrodnikHatA(): dataBlockCap(1), pointerBlockCap(1), size(0), cap(1)
+BrodnikHatA::BrodnikHatA(): dataBlockCap(1), pointerBlockSize(1), pointerBlockCap(1), size(0), cap(1)
 {
 	name = "BrodnikHatA";
 	pointerBlock = new int*[pointerBlockCap];
@@ -19,26 +19,32 @@ BrodnikHatA::~BrodnikHatA()
 	delete[] pointerBlock;
 }
 
-void BrodnikHatA::resize(int newPointerBlockSize)
+void BrodnikHatA::resizePointerBlock(int newPointerBlockCap)
 {
-	int newDataBlockSize = dataBlockCap + 1;
-	int **newPointerBlock = new int*[newPointerBlockSize];
-	int i;
-	for (i=0;i<pointerBlockCap;i++)
+	int **newPointerBlock = new int*[newPointerBlockCap];
+	for (int i=0;i<dataBlockCap;i++)
 		newPointerBlock[i] = pointerBlock[i];
-	newPointerBlock[i] = new int[newDataBlockSize];
 	delete[] pointerBlock;
 	pointerBlock = newPointerBlock;
-	dataBlockCap = newDataBlockSize;
-	pointerBlockCap = newPointerBlockSize;
-	cap += newDataBlockSize;
+	pointerBlockCap = newPointerBlockCap;
+}
+
+void BrodnikHatA::grow()
+{
+	if (pointerBlockSize == pointerBlockCap)
+		resizePointerBlock(2 * pointerBlockCap);
+	int newDataBlockCap = dataBlockCap + 1;
+	pointerBlock[dataBlockCap] = new int[newDataBlockCap];
+	pointerBlockSize += 1;
+	cap += newDataBlockCap;
+	dataBlockCap = newDataBlockCap;
 }
 
 void BrodnikHatA::append(int n)
 {
 	if (size == cap)
-		resize(pointerBlockCap + 1);
-	pointerBlock[pointerBlockCap - 1][dataBlockCap - (cap - size)] = n;
+		grow();
+	pointerBlock[pointerBlockSize - 1][dataBlockCap - (cap - size)] = n;
 	size++;
 }
 
@@ -58,7 +64,8 @@ void BrodnikHatA::print()
 
 void BrodnikHatA::printDes()
 {
-	cout << "pointerBlockCap: " << dataBlockCap << endl;
+	cout << "pointerBlockSize: " << pointerBlockSize << endl;
+	cout << "pointerBlockCap: " << pointerBlockCap << endl;
 	cout << "dataBlockCap: " << dataBlockCap << endl;
 	cout << "size: " << size << endl;
 	cout << "cap: " << cap << endl;
