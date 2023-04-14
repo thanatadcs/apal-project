@@ -12,7 +12,13 @@ int main(void)
 	SitarskiHat sh;
 	BrodnikHatA bha;
 	BrodnikHatB bhb;
+	//for (int i=0;i<100;i++)
+	//	bhb.append(i);
+	//bhb.print();
+	//for (int i=0;i<51;i++)
+	//	cout << bhb.get(i) << endl;
 	for (int i=0;i<100;i++)
-		bha.append(i);
-	bha.print();
+		bhb.append(i);
+	for (int i=0;i<100;i++)
+		cout << bhb.get(i) << " ";
 }
