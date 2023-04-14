@@ -49,16 +49,9 @@ public:
 
     void scan() {
         for (const auto& value : table1) {
-            if (value != -1) {
-                std::cout << value << " ";
-            }
         }
         for (const auto& value : table2) {
-            if (value != -1) {
-                std::cout << value << " ";
-            }
         }
-        std::cout << std::endl;
     }
 
     void print() {
