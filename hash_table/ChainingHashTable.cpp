@@ -101,6 +101,16 @@ Value ChainingHashTable<Key, Value>::get(const Key& key) const {
     throw std::out_of_range("Key not found");
 }
 
+template <typename Key, typename Value>
+void ChainingHashTable<Key, Value>::scan() const {
+    for (const auto& list : table_) {
+        for (const auto& pair : list) {
+            std::cout << "(" << pair.key << ", " << pair.value << ") ";
+        }
+    }
+    std::cout << std::endl;
+}
+
 // Explicit instantiations for common types
 template class ChainingHashTable<int, int>;
 template class ChainingHashTable<std::string, int>;

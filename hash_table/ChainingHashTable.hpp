@@ -19,6 +19,7 @@ public:
     size_t size() const;
     size_t capacity() const;
     Value get(const Key& key) const;
+    void scan() const;
 
 private:
     struct KeyValuePair {

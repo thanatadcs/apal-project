@@ -2,6 +2,7 @@
 #include <string>
 #include "ChainingHashTable.cpp"
 #include "OpenAddressingHashTable.cpp"
+#include "CuckooHashingHashTable.hpp"
 
 
 int main() {
@@ -15,6 +16,7 @@ int main() {
     hash_table.insert(11, "eleven");
     hash_table.insert(16, "sixteen");
 
+    hash_table.scan();
     hash_table.print();
 
     std::cout << "-----------------------------------------------------------------\n";
@@ -72,7 +74,32 @@ int main() {
 
     std::cout << "All tests passed!\n";
 
+    hash_table_two.scan();
     hash_table_two.print();
 
+    std::cout << "-----------------------------------------------------------------\n";
+    // --------------------------------------------------------------------------
+
+    CuckooHashTable table(10);
+
+    table.insert(5);
+    table.insert(7);
+    table.insert(1);
+    table.insert(8);
+
+    table.print();
+
+    table.remove(5);
+    table.insert(3);
+
+    table.print();
+
+    std::cout << "Search for 8: " << std::boolalpha << table.search(8) << std::endl;
+    std::cout << "Search for 5: " << std::boolalpha << table.search(5) << std::endl;
+
+    std::cout << "Scan: ";
+    table.scan();
+
     return 0;
+
 }

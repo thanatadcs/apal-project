@@ -20,6 +20,8 @@ public:
     std::size_t size() const;
     std::size_t capacity() const;
 
+    void scan() const;
+
     const ValueType& operator[](const KeyType& key) const;
     ValueType& operator[](const KeyType& key);
 
