@@ -13,10 +13,6 @@ int main(void)
 	BrodnikHatA bha;
 	BrodnikHatB bhb;
 	for (int i=0;i<16;i++)
-	{
-		bhb.append(i);
-	}
-	//sh.print();
-	//bha.print();
-	bhb.print();
+		bha.append(i);
+	bha.print();
 }
