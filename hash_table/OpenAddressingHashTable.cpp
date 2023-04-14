@@ -121,13 +121,12 @@ std::size_t OpenAddressingHashTable<KeyType, ValueType>::find_index_(
     std::size_t distance = 0;
     while (table_[index].type == EntryType::OCCUPIED && table_[index].key != key) {
         ++distance;
-        index = (index + probe_distance_(index, hash)) % capacity_;
+        index = (index + probe_distance_(hash)) % capacity_;
     }
     return index;
 }
 
 template <typename KeyType, typename ValueType>
-std::size_t OpenAddressingHashTable<KeyType, ValueType>::probe_distance_(
-        std::size_t index, std::size_t hash) const {
+std::size_t OpenAddressingHashTable<KeyType, ValueType>::probe_distance_(std::size_t hash) const {
     return (hash % (capacity_ - 1)) + 1;
 }

@@ -42,7 +42,7 @@ private:
 
     void rehash_();
     std::size_t find_index_(const KeyType& key) const;
-    std::size_t probe_distance_(std::size_t index, std::size_t hash) const;
+    std::size_t probe_distance_(std::size_t hash) const;
 };
 
 #endif
