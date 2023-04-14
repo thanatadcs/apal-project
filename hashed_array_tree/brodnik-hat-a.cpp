@@ -78,6 +78,7 @@ void BrodnikHatA::clear()
 	delete[] pointerBlock;
 	// Reset fields
 	dataBlockCap = 1;
+	pointerBlockCap = 1;
 	size = 0;
 	cap = 1;
 	pointerBlock = new int*[pointerBlockCap];
