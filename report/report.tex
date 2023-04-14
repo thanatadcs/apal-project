@@ -68,9 +68,9 @@
     \subsection*{Remark on implementation}
     The implementation of \emph{get} function of Brodnik's HAT B is different from \emph{locate} function in the original paper.
     Namely, I cannot implement part of \emph{locate} function since there might be something wrong with the pseudocode in the paper,
-    specifically \emph{$p=2^k - 1$} mentioned in the paper is does not represent the number of data blocks before the $k$-th superblock,
+    specifically \emph{$p=2^k - 1$} mentioned in the paper does not represent the number of data blocks before the $k$-th superblock as claimed,
     but it represent the number of elements before the $k$-th superblock instead. For this reason I have to implement my own way to get the number of
-    data blocks before the $k$-th superblock. More information can be found in brodnik-hat-b.cpp.
+    data blocks before the $k$-th superblock. This can effect the running time of the \emph{get} function for Brodnik's HAT B. More information can be found in brodnik-hat-b.cpp.
 
     \section*{Results}
     \subsection*{Hashed Array Tree}
