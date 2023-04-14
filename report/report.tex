@@ -13,7 +13,7 @@
 % \setlength\parindent{0pt}
 
 \newcommand{\question}[2][]{\begin{flushleft}
-        \textbf{Question #1}: \textit{#2}
+                                \textbf{Question #1}: \textit{#2}
 
 \end{flushleft}}
 \newcommand{\sol}{\textbf{Solution}:} %Use if you want a boldface solution line
@@ -27,12 +27,11 @@
         
         \today}        % Change to due date if preferred
         \vspace{15pt}
-        
 \end{center}}
 \begin{document}
     \maketitletwo[]  % Optional argument is assignment number
     %Keep a blank space between maketitletwo and \question[1]
-    
+
     \section*{Objective}
     The objective of this project is to benchmark two different type of data structures and compare different
     implementation of each type as well as their theoretical running time.
@@ -46,11 +45,11 @@
     \begin{itemize}
         \item Chaining
         \item Open addressing
-        \item Cuckoo hashing
+        \item Cuckoo hashing (Rasmus Pagh \& Flemming Rodler., 2004)
     \end{itemize}
-    
+
     For a lack of a better name, we are going to called both the data structures from \href{ https://sedgewick.io/wp-content/themes/sedgewick/papers/1999Optimal.pdf}{ Brodnik et al 1999}, Hashed Array Tree (HAT).
-    More specifically, we are going to called Brodnik's HAT with non-superblock version \emph{Brodnik's HAT A} and the superblock version \emph{Brodnik's HAT B}.
+    Not only that we are going to called Brodnik's HAT with non-superblock version \emph{Brodnik's HAT A} and the superblock version \emph{Brodnik's HAT B}.
 
     The dimensions of interest are the following
     \begin{itemize}
@@ -160,8 +159,80 @@
 
     This is according to the theory since all of the have $O(1)$ append time (Sitarski's is amortized), the overall throughput
     average out some bad running time for Sitarski's HAT, but still it cannot beat Brodnik's HAT A and B since both of these are constant worst case append time.
-    
+
+
     \subsection*{Hash table}
+    \subsubsection*{No collision case}
+    \textbf{Chaining scheme}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}\hline
+        & Insert & Search & Delete & Scan\\\hline
+        size: 1 & 930 & 320 & 3,486 & 670\\\hline
+        size: 100 & 143,110 & 13,354 & 40,620 & 26,080\\\hline
+        size: 100K & 134,573,520 & 12,750,922 & 38,332,107 & 24,604,098\\\hline
+        size: 10M & 14,144,086,730 & 1,319,286,013 & 4,042,035,833 & 2,517,830,762\\\hline
+        \end{tabular}
+    \end{center}
+
+    \textbf{Open Addressing scheme}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}\hline
+        & Insert & Search & Delete & Scan\\\hline
+        size: 1 & 3,654 & 380 & 330 & 104\\\hline
+        size: 100 & 61,856 & 24,550 & 24,982 & 836\\\hline
+        size: 100K & 54,732,644 & 24,174,556 & 26,079,140 & 684,162\\\hline
+        size: 10M & 5,143,961,418 & 2,280,300,642 & 2,400,285,752 & 67,605,464\\\hline
+        \end{tabular}
+    \end{center}
+
+
+    \textbf{Cuckoo Hashing scheme}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}\hline
+        & Insert & Search & Delete & Scan\\\hline
+        size: 1 & 158 & 186 & 114 & 556\\\hline
+        size: 100 & 8,548 & 5,566 & 6,712 & 9,210\\\hline
+        size: 100K & 8,384,710 & 6,419,210 & 7,441,992 & 10,242,288\\\hline
+        size: 10M & 656,286,450 & 450,796,896 & 595,650,074 & 918,961,414\\\hline
+        \end{tabular}
+    \end{center}
+
+
+    \subsubsection*{Collision for each and every insert}
+    \textbf{Chaining scheme}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}\hline
+        & Insert & Search & Delete & Scan\\\hline
+        size: 1 & 6,436 & 618 & 1,818 & 942\\\hline
+        size: 100 & 12,638 & 12,444 & 36,630 & 23,882\\\hline
+        size: 100K & 12,805,934 & 12,400,152 & 36,475,868 & 23,906,203\\\hline
+        size: 10M & 1,381,820,700 & 1,278,416,286 & 3,839,070,001 & 2,430,914,352\\\hline
+        \end{tabular}
+    \end{center}
+
+    \textbf{Open Addressing scheme}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}\hline
+        & Insert & Search & Delete & Scan\\\hline
+        size: 1 & 2,602 & 514 & 354 & 120\\\hline
+        size: 100 & 23,580 & 21,490 & 22,120 & 814\\\hline
+        size: 100K & 24,796,556 & 22,563,490 & 23,658,006 & 666,302\\\hline
+        size: 10M & 2,474,628,412 & 2,260,518,832 & 2,360,901,784 & 6,6875,470\\\hline
+        \end{tabular}
+    \end{center}
+
+
+    \textbf{Cuckoo Hashing scheme}
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}\hline
+        & Insert & Search & Delete & Scan\\\hline
+        size: 1 & 346 & 208 & 172 & 556\\\hline
+        size: 100 & 183,484 & 8,524 & 8,986 & 9,048\\\hline
+        size: 100K & 107,326,484 & 9,201,168 & 8,696,178 & 9,369,126\\\hline
+        size: 10M & 1,572,211,006 & 513,099,226 & 598,603,314 & 921,694,710\\\hline
+        \end{tabular}
+    \end{center}
+
 
     \section*{Conclusion}
     We have implemented and benchmarked 3 versions of HAT and 3 versions of hash table.
