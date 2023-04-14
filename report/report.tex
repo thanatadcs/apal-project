@@ -72,12 +72,52 @@
     but it represent the number of elements before the $k$-th superblock instead. For this reason I have to implement my own way to get the number of
     data blocks before the $k$-th superblock. This can effect the running time of the \emph{get} function for Brodnik's HAT B. More information can be found in brodnik-hat-b.cpp.
 
-    \section*{Results}
+    \section*{Results and Discussion}
     \subsection*{Hashed Array Tree}
+    All the number presented has the unit in cycles.
+    \subsubsection*{Append latency}
+    10 millions elements are appended and each append are timed, here are the statistics
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|}\hline
+            & Sitarski's HAT & Brodnik's HAT A & Brodnik's HAT B\\\hline
+            mean &  59.7470848 & 48.3077336 & 46.6222048\\\hline
+            standard deviation & 28458.271801239895  & 173.0441420332727 & 227.73642714240262\\\hline 
+        \end{tabular}
+    \end{center}
+    \subsubsection*{Access latency}
+    10 millions elements are appended and all 10 millions elements are get access through \emph{get} function.
+    Each access is timed, here are the statistics
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|}\hline
+            & Sitarski's HAT & Brodnik's HAT A & Brodnik's HAT B\\\hline
+            mean &  46.9125558 & 71.8199474 & 68.7515222\\\hline
+            standard deviation & 31.649467204234057  & 35.97450913996233 & 90.24513109294548\\\hline 
+        \end{tabular}
+    \end{center}
+    \subsubsection*{Scan throughput}
+    1000 elements are appended and all the 1000 elements are accessed. The total time used to access all elements is measured and we do this for 1000 times.
+    Here are the statistics. 
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|}\hline
+            & Sitarski's HAT & Brodnik's HAT A & Brodnik's HAT B\\\hline
+            mean &  16439.928 & 38772.878 & 53974.224\\\hline
+            standard deviation & 1509.39901776038  & 3611.297266234946 & 2422.0789396351224\\\hline 
+        \end{tabular}
+    \end{center}
+    \subsubsection*{Overall throughput}
+    1000 elements are appended. The total time used to append all 1000 elements is measured and we do this for 1000 times.
+    Here are the statistics
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|}\hline
+            & Sitarski's HAT & Brodnik's HAT A & Brodnik's HAT B\\\hline
+            mean &  31624.766 & 26366.932 & 28797.736\\\hline
+            standard deviation & 1774.3194777840883  & 1691.4454491280528 & 2090.277559154286\\\hline 
+        \end{tabular}
+    \end{center}
+    
     \subsection*{Hash table}
 
-    \section*{Discussion}
-    \subsection*{Limitation}
+    \section*{Limitation}
 
     \section*{Conclusion}
 
