@@ -62,11 +62,7 @@ std::size_t OpenAddressingHashTable<KeyType, ValueType>::size() const {
 template <typename KeyType, typename ValueType>
 void OpenAddressingHashTable<KeyType, ValueType>::scan() const {
     for (std::size_t i = 0; i < capacity_; ++i) {
-        if (table_[i].type == EntryType::OCCUPIED) {
-            std::cout << "(" << table_[i].key << ", " << table_[i].value << ") ";
-        }
     }
-    std::cout << std::endl;
 }
 
 template <typename KeyType, typename ValueType>
