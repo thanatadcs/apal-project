@@ -44,8 +44,6 @@ void BrodnikHatA::append(int n)
 
 int BrodnikHatA::get(int pos)
 {
-	if (pos < 0 || pos >= size)
-		return 0;
 	int pointerBlockIndex = (int)((sqrt(8*pos + 1) - 1.0)/2.0);
 	int dataBlockIndex = pos - (pointerBlockIndex*(pointerBlockIndex + 1))/2;
 	return pointerBlock[pointerBlockIndex][dataBlockIndex];

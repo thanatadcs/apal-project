@@ -81,8 +81,6 @@ int bsr(unsigned int n)
 
 int BrodnikHatB::get(int pos)
 {
-	if (pos < 0 || pos >= size)
-		return 0;
 	unsigned int r = pos + 1;
 	unsigned int k = bsr(r) - 1;
 	unsigned int b = (r >> ((int)ceil(k/2.0))) & (1 << k/2) - 1;

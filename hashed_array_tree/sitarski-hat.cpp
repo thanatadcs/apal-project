@@ -56,8 +56,6 @@ void SitarskiHat::append(int n)
 
 int SitarskiHat::get(int pos)
 {
-	if (pos < 0 || pos >= size)
-		return 0;
 	return pointerBlock[pos >> logDbs][pos & ((1 << logDbs) - 1)];
 }
 
