@@ -52,14 +52,22 @@
     For a lack of a better name, we are going to called both the data structures from \href{ https://sedgewick.io/wp-content/themes/sedgewick/papers/1999Optimal.pdf}{ Brodnik et al 1999}, Hashed Array Tree (HAT).
     Not only that we are going to called Brodnik's HAT with non-superblock version \emph{Brodnik's HAT A} and the superblock version \emph{Brodnik's HAT B}.
 
-    The dimensions of interest are the following
+    The following are the dimensions of interest
+
+    \noindent For HAT,
     \begin{itemize}
         \item Append latency
         \item Access latency
         \item Scan throughput
         \item Overall throughput
     \end{itemize}
-    In addition, for hash table we also going to look at deletion time.
+    For hash table,
+    \begin{itemize}
+        \item Insert latency
+        \item Access latency
+        \item Delete latency
+        \item Scan throughput
+    \end{itemize}
 
     \section*{Method}
     We are going the implement the data structures above and benchmark them. Our implementation can be found here: \href{https://github.com/thanatadcs/apal-project}{ https://github.com/thanatadcs/apal-project}.
